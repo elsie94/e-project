@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Add this in your <head> section, this is for ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        body{
+            background-color: #1c1c1e;
+        }
+        h4{
+            text-align: center;
+            margin-top: 50px;
+            color: #a8e063;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 35px;
+                font-weight: 670;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+        }
+
+        .about{
+          width: 80%;
+    max-width: 1000px;
+    margin: 50px auto;
+    color: #f0f0f0;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: left;
+    background-color: #2e2e30;
+    border-left: 4px solid #a8e063;
+    border-radius: 0 10px 10px 0;
+    padding: 24px 28px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* ← add this */
+        }
+
+
+        .about:hover{ 
+    border-color: #4a7a1a;
+    box-shadow: 0 4px 20px rgba(168, 224, 99, 0.2);
+       } 
+
+
+       h3{
+        color: #a8e063;
+        text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    margin: 40px 0 30px;    /* space above and below */
+    text-transform: uppercase;
+       }
+
+       .section-sub {
+    color: #cccccc;   /* same as your timeline-detail text ✅ */
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1rem;
+    margin-bottom: 40px;  /* space below the subtitle */
+    margin-top: 10px;
+
+}
+
+        .timeline{
+             position: relative;   /* needed so children can use absolute */
+             padding-left: 30px;   /* pushes text away from the line */
+        }
+
+
+        /* The vertical line */
+.timeline::before{
+    content: '';
+    position: absolute;
+    left: 15px;   /* centers the line with the dots */
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #a8e063;
+    border-radius: 3px;
+
+    
+      /* The line will be invisible or hidden until you scroll to it */
+      opacity: 0;
+
+      /* this tells the browser how to reveal the line */
+      transition: opacity 0.8s ease 0.3s;
+}
+
+/* Line becomes visible when section is in view */
+    #historySection.visible .timeline::before {
+      opacity: 1;
+    }
+
+
+     /* ONE YEAR BLOCK
+       Starts hidden and shifted left.
+       transition (not @keyframes) because
+       scroll controls when it plays */
+    .timeline-item {
+      position: relative;         /* anchor for the dot */
+      margin-bottom: 38px;
+ 
+      /* Default hidden state */
+      opacity: 0;
+
+      /* moves the item 30px to the left of its normal position */
+      transform: translateX(-30px);
+ 
+      /* Smooth reveal when .animate is added */
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .timeline-item:last-child {
+         margin-bottom: 0; 
+        }
+ 
+    /* WHEN JAVASCRIPT ADDS .animate
+       the item smoothly slides into view */
+    .timeline-item.animate {
+      opacity: 1;
+      transform: translateX(0);
+    }
+ 
+    /* STAGGER DELAYS
+       Each item waits longer than the last
+       so they appear one after another.
+       Pattern: each delay = previous + 0.2s */
+    .timeline-item:nth-child(1).animate { transition-delay: 0.0s; }
+    .timeline-item:nth-child(2).animate { transition-delay: 0.2s; }
+    .timeline-item:nth-child(3).animate { transition-delay: 0.4s; }
+    .timeline-item:nth-child(4).animate { transition-delay: 0.6s; }
+    .timeline-item:nth-child(5).animate { transition-delay: 0.8s; }
+    .timeline-item:nth-child(6).animate { transition-delay: 1.0s; }
+.timeline-item:nth-child(7).animate  { transition-delay: 1.2s; }
+.timeline-item:nth-child(8).animate  { transition-delay: 1.4s; }
+.timeline-item:nth-child(9).animate  { transition-delay: 1.6s; }
+.timeline-item:nth-child(10).animate { transition-delay: 1.8s; }
+.timeline-item:nth-child(11).animate { transition-delay: 2.0s; }
+
+     /* THE DOT (circle on the line) */
+    .timeline-dot {
+      position: absolute;          /* removed from text flow */
+      left: -25px;                 /* negative = pulls LEFT onto the line */
+      top: 5px;
+      width: 16px; height: 16px;
+      background: #1c1c1e;
+      border-radius: 50%;          /* makes it a circle */
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 3px rgba(168, 224, 99, 0.4) ;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.35);
+     border-color: #4a7a1a;
+    }
+ 
+    /* YEAR TEXT */
+    .timeline-year {
+      font-family: Cambria italic;
+      font-size: 11px;
+       font-weight: 700;
+      color: #a8e063;
+       letter-spacing: 2px;
+      text-transform: uppercase;
+       margin-bottom: 4px;
+    }
+ 
+    /* EVENT TITLE */
+    .timeline-event {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.05rem; 
+      font-weight: 700;
+      color: #a8e063; 
+      margin-bottom: 8px;
+    }
+ 
+    /* DESCRIPTION CARD */
+    .timeline-detail {
+      font-size: 0.88rem;
+       color: #cccccc;
+      line-height: 1.8; 
+      margin: 0;
+      background: #2e2e30; 
+      padding: 12px 16px;
+      border-radius: 10px;
+      border-left: 3px solid #a8e063;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .timeline-item:hover .timeline-detail {
+      border-color: #7ab83a;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+ 
+    /* Heading scroll-in animation */
+    
+    .section-title,
+.section-sub {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ── Title appears first ── */
+.section-title {
+    transition-delay: 0.1s;  /* waits 0.1s before appearing */
+}
+
+/* ── Subtitle appears after title ── */
+.section-sub {
+    transition-delay: 0.2s;  /* waits 0.2s before appearing */
+}
+
+/* ── When JavaScript adds .visible both appear ── */
+#historySection.visible .section-title,
+#historySection.visible .section-sub {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+.mvv{
+display: flex;
+flex-direction: row;
+justify-content:space-evenly;
+gap: 5px;
+}
+
+
+
+.mission, .vision, .values{
+    color: #a8e063;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+     margin-top: 20px;
+    
+}
+
+.mission-header, .vision-header, .values-header{
+    background-color: #2e2e30;
+    border-top: 4px solid #a8e063;
+    width: 25%;
+    /* flex: 1; */
+    border-left: 1px solid #a8e063;
+    border-right: 1px solid #a8e063;
+    border-bottom: 1px solid #a8e063;
+    border-radius: 10px;
+    padding: 20px;
+     transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s
+
+}
+
+.mission-header:hover, .vision-header:hover, .values-header:hover{
+    border-top: 4px solid #4a7a1a;
+    border-left: 1px solid #4a7a1a;
+    border-right: 1px solid #4a7a1a;
+    border-bottom: 1px solid #4a7a1a;
+   box-shadow: 0 4px 20px rgba(168, 224, 99, 0.2);
+    transform: translateY(-6px);
+   
+}
+
+.mission-text, .vision-text, .values-text{
+    color: #cccccc; 
+    padding: 15px;
+    text-align: center;
+    line-height: 1.6;
+    font-size: 16px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    
+}
+
+.icons{
+    width: 60px;              /* circle width */
+    height: 60px;             /* circle height */
+    background: #1c1c1e;      /* dark circle background */
+    border-radius: 50%;        /* makes it a circle */
+    display: flex;             /* centres the icon */
+    align-items: center;       /* centres icon vertically */
+    justify-content: center;   /* centres icon horizontally */
+    margin: 0 auto 16px; 
+    margin-top: 20px;
+    
+}
+
+.icons ion-icon{
+     font-size: 1.8rem;         /* icon size */
+    color: #a8e063; 
+    
+}
+
+.stats-section{
+    background-color: #a8e063;
+    padding: 50px 40px;
+    margin: 60px 0;
+    
+}
+
+.stats-container{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+margin: auto;
+    gap: 10px;
+    max-width: 1000px;
+}
+
+.stat-item{
+    text-align: center;
+    
+    flex: 1;
+}
+
+.stat-row{
+    display: flex;
+    justify-content: center;
+    align-items: baseline; /* lines up bottom of number and plus */
+    gap: 2px;
+    
+}
+
+/* The big number */
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1c1c1e;             /* dark on green */
+    font-family: 'Courier New', monospace;
+    line-height: 1;
+}
+
+/* The plus sign */
+.stat-suffix {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1c1c1e;             /* dark on green */
+    line-height: 1;
+}
+
+/* The label below number */
+.stat-label {
+    font-size: 0.85rem;
+    color: #2e2e30;             /* slightly lighter dark */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* The vertical divider between stats */
+.stat-divider {
+    width: 1px;
+    height: 60px;
+    background: rgba(28, 28, 30, 0.3);  /* faint dark line */
+}
+h3 {
+    text-align: center;
+    color: #a8e063;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    margin: 40px 0 30px;
+    text-transform: uppercase;
+}
+
+.contact{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 50px;
+   margin: auto;
+   padding: 50px ;
+
+    
+   /* width: 100%;     */
+}
+
+.form, .mycontact{
+    background-color: #2e2e30;
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+     transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+     border-top: 5px solid #a8e063; 
+}
+
+.contact-icons{
+    display: flex;
+    align-items: center;
+    /* gap: 10px; */
+    /* margin-bottom: 20px; */
+    color: #a8e063;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   padding: 10px;
+   margin-top: 2px;
+   font-size: 1.2rem;
+    font-weight: bold;
+    
+     border: 4px #a8e063;
+    
+    gap: 12px;
+    /* margin-bottom: 4px; */
+     
+    
+    /* gap: 12px; */
+    margin-bottom: 4px;
+}
+.contact-icons ion-icon{
+    font-size: 2.0rem;
+    background-color: #1c1c1e;
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 15px;
+    
+   
+}
+
+.contact-label{
+    color: #cccccc;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /* font-size: 24px; */
+    
+    font-weight: 500;
+/* margin: 0 0 20px 40px; */
+text-align: left;
+    /* font-size: 1rem; */
+   
+    font-size: 0.95rem;
+    /* margin: 0 0 18px 52px;   left margin = icon width + gap  */
+    /* margin: 0px 0 18px 52px;   left margin = icon width + gap  */
+    margin: 4px 0 18px 64px;  /* ← 64px pushes it under the header text */
+}
+
+.direct-message{
+    color: #a8e063;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form label{
+    color: #a8e063;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /* font-size: 1.4rem; */
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+  
+.form input, .form textarea{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1rem;
+    /* background-color: #cccccc; */
+    background-color: #1c1c1e;
+color: #f0f0f0;
+}
+
+.form input:focus, .form textarea:focus{
+    outline: none;
+    border-color: #7ab83a;
+    box-shadow: 0 0 5px rgba(168, 224, 99, 0.5);
+}
+
+.form textarea{
+    flex: 1;
+   flex-wrap: wrap; 
+    resize: vertical; /* allows user to resize the textarea vertically */
+}
+.form button{
+width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    /* border: 1px solid #cccccc; */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1rem;
+    background-color: #a8e063;
+    color: #1c1c1e;
+    border: none;
+    cursor: pointer;
+     /* transition: background-color 0.3s, color 0.3s; */
+   transition: background-color 0.3s, transform 0.2s; /* smooth change */
+}
+
+.form button:hover{
+color: #7ab83a;
+  /* background-color: #a8e063; */
+   background-color: #7ab83a;      /* darker green */
+    color: #1c1c1e;
+    transform: translateY(-2px);    /* slight lift */
+}
+
+
+.form button:active {
+    transform: translateY(0);       /* goes back down when clicked */
+    background-color: #4a7a1a; 
+}
+
+iframe{
+ width: 100%;
+    height: 300px;
+    border: 0;
+    border-radius: 10px;
+    margin-top: 16px;
+}
+
+
+/* Section wrapper */
+#sitemap {
+    padding: 60px 20px;
+    background: #1c1c1e;
+}
+
+/* Sitemap wrapper centres everything */
+.sitemap-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ROOT BOX */
+.sitemap-root-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.sitemap-root {
+    background: #a8e063;
+    color: #1c1c1e;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* Vertical line from root to main pages */
+.sitemap-root-line {
+    width: 3px;
+    height: 40px;
+    background: #a8e063;
+    margin: 0 auto;
+}
+
+/* Main pages row */
+.sitemap-main-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+}
+
+/* Horizontal line connecting all main nodes */
+.sitemap-main-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #a8e063;
+}
+
+/* Each branch — main node + its children */
+.sitemap-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Vertical line from horizontal bar to main node */
+.sitemap-branch::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    background: #a8e063;
+}
+
+/* Each clickable node box */
+.sitemap-node {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 8px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+    transition: all 0.25s;
+}
+
+/* Main page nodes */
+.main-node {
+    background: #2e2e30;
+    color: #a8e063;
+    border: 1.5px solid #a8e063;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+
+.main-node:hover {
+    background: #a8e063;
+    color: #1c1c1e;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(168, 224, 99, 0.3);
+}
+
+/* Vertical line from main node to sub nodes */
+.sitemap-sub-line {
+    width: 3px;
+    height: 20px;
+    background: rgba(168, 224, 99, 0.4);
+    margin: 0 auto;
+}
+
+/* Sub nodes row */
+.sitemap-sub-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
+
+/* Horizontal line connecting sub nodes */
+.sitemap-sub-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: rgba(168, 224, 99, 0.3);
+}
+
+/* Each sub node */
+.sub-node {
+    background: #1c1c1e;
+    color: #cccccc;
+    border: 1px solid rgba(168, 224, 99, 0.25);
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    margin-top: 8px;
+}
+
+.sub-node:hover {
+    background: #2e2e30;
+    color: #a8e063;
+    border-color: #a8e063;
+}
+
+    </style>
+</head>
+<body>
+    
+    <h4>ABOUT US</h4>
+
+    <div class="about">
+       <p>
+        The first leading global bottling company, PolySite was founded twenty years ago. We specialise in the manufacture, supply, packaging, and export of a variety of PET, PP, and PC bottles for several industries including pharmaceuticals, chemicals, water, liquor, and more. We provide heat-resistant, durable, recyclable, and eco-friendly bottles for everyday use.
+<br><br>
+PolySite is a recognised member of the Standard Organisation of Nigeria (SON) and the National Food and Drug Administration and Control (NAFDAC). We have also partnered with several foreign agencies including the National Medical Products Administration (NMPA) and the United States Food and Drug Administration (USFDA/FDA). PolySite has been a supplier to its home country and to over 40 countries and industries around the world. We also offer custom packaging solutions. Trust us to bring you the best packaging solutions.
+       </p> 
+    </div>
+
+
+<!-- Outer section wrapper — id needed for JavaScript later -->
+    <div id="historySection">
+
+    
+
+        <h3 class="section-title"> OUR HISTORY  </h3>
+        <p class="section-sub">A look at our growth and achievemets over the years</p>
+
+<!-- the outer container -->
+    <div class="timeline">
+
+
+<!-- This is for the first year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2000</div>
+                <div class="timeline-event">Company Founded</div>
+<p class="timeline-detail"> PolySite was established in Nigeria with 10 dedicated members and essential manufacturing equipment.</p>
+                 </div>   
+
+                  <!-- This is for the second  year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2002</div>
+                <div class="timeline-event">ISO 9001 Certification</div>
+<p class="timeline-detail"> PolySite achieved its ISO 9001 Certification — a major quality milestone.</p>
+                 </div>   
+
+                  <!-- This is for the third year  -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2004</div>
+                <div class="timeline-event">Product Launch</div>
+<p class="timeline-detail">The manufacturing of PET, PP, and PC bottles began and we started supplying to local markets in Nigeria.</p>
+                 </div> 
+                 
+                 
+                 <!-- This is for the fourth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2005</div>
+                <div class="timeline-event">Expansion to New Markets</div>
+<p class="timeline-detail">PolySite expanded its operations to include new regional markets. </p>
+                 </div> 
+                 
+                 
+                 <!-- This is for the fifth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2007</div>
+                <div class="timeline-event">Supply and Exportation Grew in High Demand</div>
+<p class="timeline-detail"> PolySite was able to meet the increasing demand for its products both locally and internationally.</p>
+                 </div> 
+                 
+                 
+                 <!-- This is for the sixth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2009</div>
+                <div class="timeline-event">Acquisition of New Technology</div>
+<p class="timeline-detail"> PolySite invested in new technology to enhance its manufacturing capabilities.</p>
+                 </div>  
+
+
+                  <!-- This is for the seventh year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2010</div>
+                <div class="timeline-event">Custom Packaging began</div>
+<p class="timeline-detail"> PolySite started developing personalized packaging solutions for individuals and industries worldwide.</p>
+                 </div> 
+
+                 <!-- This is for the eighth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2011</div>
+                <div class="timeline-event">Agencies Partnership</div>
+<p class="timeline-detail"> PolySite established partnerships with several foreign agencies to expand its reach and capabilities.</p>
+                 </div>  
+
+                  <!-- This is for the ninth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2013</div>
+                <div class="timeline-event">Wide Export Growth</div>
+<p class="timeline-detail"> Supply and exportation grew significantly,reaching markets across multiple continents worldwide.</p>
+                 </div> 
+
+                  <!-- This is for the tenth year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2016</div>
+                <div class="timeline-event">China Branch Opened</div>
+<p class="timeline-detail"> A new branch of PolySite was established in China, strengthening our global presence.</p>
+                 </div> 
+
+                  <!-- This is for the eleventh year -->
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+            <div class="timeline-year">2018 - Present</div>
+                <div class="timeline-event">Global Presence Established</div>
+<p class="timeline-detail"> PolySite now serves over 40 countries worldwide, supplying industries and individuals with quality packaging solutions.</p>
+                 </div> 
+                   
+                
+                
+            
+        
+    </div> 
+
+    </div>
+<!-- End #historySection -->
+    </div>
+
+
+    <!-- This is for the mission, vision and values -->
+
+  <h3>OUR MISSION, VISION AND VALUES</h3>
+
+    <div class="mvv">
+       
+
+        <div class="mission-header">
+            <div class="icons"><ion-icon name="rocket-sharp"></ion-icon></div>
+            <h4 class="mission">Our Mission </h4>
+            <p class="mission-text">To enable the manufacture, supply and export of eco-friendly and recyclable PET, PP and PC bottles globally, thereby providing personalised packaging solutions in the best interests of our clients.</p>
+        </div>
+
+        <div class="vision-header">
+            <div class="icons"><ion-icon name="bulb-sharp"></ion-icon></div>
+            <h4 class="vision">Our Vision </h4>
+            <p class="vision-text">To  satisfy individuals and industries with our high quality packaging solutions, and to contribute to a cleaner environment through sustainable and recyclable manufacturing practices.</p>
+        </div>
+
+        <div class="values-header">
+            <div class="icons"><ion-icon name="diamond-sharp"></ion-icon></div>
+            <h4 class="values">Our Values</h4>
+            <p class="values-text">Integrity . Customer Satisfaction . Quality first . Excellence . Sustainability . Innovation
+</p>
+        </div>
+
+
+
+
+    </div>
+
+
+  <div class="stats-section" id="statsSection">
+    <div class="stats-container">
+
+        <!-- Stat 1 -->
+        <div class="stat-item">
+            <div class="stat-row">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-suffix">+</div>
+            </div>
+            <div class="stat-label">Years in Operation</div>
+        </div>
+
+        <!-- Divider -->
+        <div class="stat-divider"></div>
+
+        <!-- Stat 2 -->
+        <div class="stat-item">
+            <div class="stat-row">
+                <div class="stat-number" data-target="40">0</div>
+                <div class="stat-suffix">+</div>
+            </div>
+            <div class="stat-label">Countries Served</div>
+        </div>
+
+        <!-- Divider -->
+        <div class="stat-divider"></div>
+
+        <!-- Stat 3 -->
+        <div class="stat-item">
+            <div class="stat-row">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-suffix">+</div>
+            </div>
+            <div class="stat-label">Industries Served</div>
+        </div>
+
+        <!-- Divider -->
+        <div class="stat-divider"></div>
+
+        <!-- Stat 4 -->
+        <div class="stat-item">
+            <div class="stat-row">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-suffix">+</div>
+            </div>
+            <div class="stat-label">Products Manufactured</div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- This is for the contact us -->
+ 
+<h3>Contact Us</h3>
+
+
+
+<div class="contact">
+    <div class="mycontact">
+
+    <div class="contact-icons">
+        <ion-icon name="briefcase-sharp"></ion-icon>
+<span class="contact-header">COMPANY NAME</span>
+  </div>
+    <p class="contact-label">PolySite</p>
+    
+    
+
+    <div class="contact-icons">
+<ion-icon name="call-sharp"></ion-icon>
+<span class="contact-header">TELEPHONE</span>
+</div>
+    <p class="contact-label">+234 915 769 3287</p>
+    
+
+    <div class="contact-icons">
+<ion-icon name="mail-sharp"></ion-icon>
+    <span class="contact-header">COMPANY MAIL</span>
+    </div>
+    <p class="contact-label">info@polysite.com</p>
+
+
+<div class="contact-icons">
+<ion-icon name="location-sharp"></ion-icon>
+    <span class="contact-header">ADDRESS</span>
+    </div>
+    <p class="contact-label">Plot 194, beside Sunnyvile Estate Jabi, Abuja, Nigeria.</p>
+
+<div class="contact-icons">
+<ion-icon name="time-outline"></ion-icon>
+    <span class="contact-header">BUSINESS HOURS</span>
+    </div>
+    <p class="contact-label">Monday - Friday: 9:00 AM - 6:00 PM</p>
+
+<div>
+    </div>
+    <!-- This is for the embedded map -->
+     <iframe 
+  src="https://www.google.com/maps/embed?pb=..."
+  width="100%" 
+  height="300" 
+  style="border:0;" 
+  allowfullscreen 
+  loading="lazy"
+  title="Location Map"
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+</div>
+
+
+
+<div class="form">
+<h1 class="direct-message">Talk to us directly</h1>
+
+<form action="">
+    <label for="fullname">Fullname:</label>
+    <input type ="text" id="fullname" name="fullname"  placeholder="Kindly enter your full name   " required>
+    
+<label for="phonenumber" >Phone Number:</label>
+    <input type ="tel" id="phonenumber" name="phonenumber"  placeholder="09123456789" required>
+  
+    <label for="email">Email:</label>
+    <input type ="email" id="email" name="email"  placeholder="johndoe55@gmail.com" required>
+    
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject"  placeholder="INQUIRY" required>
+   
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="5" required  placeholder="Kindly enter your message"></textarea>
+    
+    <button type="submit">Submit</button>
+</form>
+</div>
+</div>
+
+
+<!-- SITEMAP SECTION -->
+<section id="sitemap">
+
+    <h3>Site Map</h3>
+    <p class="section-sub">
+        An overview of the PolySite website structure.
+    </p>
+
+    <div class="sitemap-wrapper">
+
+        <!-- ROOT NODE -->
+        <div class="sitemap-root-row">
+            <div class="sitemap-root">
+                🏭 PolySite Website
+            </div>
+        </div>
+
+        <!-- ROOT CONNECTOR -->
+        <div class="sitemap-root-line"></div>
+
+        <!-- MAIN PAGES ROW -->
+        <div class="sitemap-main-row">
+
+            <div class="sitemap-branch">
+                <a href="#home" class="sitemap-node main-node">
+                    🏠 Home
+                </a>
+                <!-- Sub items -->
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#home" class="sitemap-node sub-node">Carousel</a>
+                    <a href="#home" class="sitemap-node sub-node">Feedback</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#products" class="sitemap-node main-node">
+                    📦 Products
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#products" class="sitemap-node sub-node">PET</a>
+                    <a href="#products" class="sitemap-node sub-node">PP</a>
+                    <a href="#products" class="sitemap-node sub-node">PC</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#gallery" class="sitemap-node main-node">
+                    🖼️ Gallery
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#gallery" class="sitemap-node sub-node">Photos</a>
+                    <a href="#gallery" class="sitemap-node sub-node">Videos</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#about" class="sitemap-node main-node">
+                    🏢 About Us
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#about" class="sitemap-node sub-node">Mission</a>
+                    <a href="#about" class="sitemap-node sub-node">Vision</a>
+                    <a href="#about" class="sitemap-node sub-node">History</a>
+                    <a href="#about" class="sitemap-node sub-node">Values</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#contact" class="sitemap-node main-node">
+                    📞 Contact
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#contact" class="sitemap-node sub-node">Form</a>
+                    <a href="#contact" class="sitemap-node sub-node">Map</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#downloads" class="sitemap-node main-node">
+                    ⬇️ Downloads
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#downloads" class="sitemap-node sub-node">PDF</a>
+                    <a href="#downloads" class="sitemap-node sub-node">DOC</a>
+                </div>
+            </div>
+
+            <div class="sitemap-branch">
+                <a href="#queries" class="sitemap-node main-node">
+                    ❓ Queries
+                </a>
+                <div class="sitemap-sub-line"></div>
+                <div class="sitemap-sub-row">
+                    <a href="#queries" class="sitemap-node sub-node">Inquiry</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+    <script>
+        //get the section first
+        const section = document.getElementById('historySection');
+
+        //get the timeline-items
+        const items = document.querySelectorAll('.timeline-item');
+
+        // the part that watches #historySection and adds .visible when it scrolls into view
+        const sectionObserver = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(entry.isIntersecting){
+                    //add .visible class to the section when it scrolls into the view
+                section.classList.add('visible');
+                
+                }
+            })
+        }, {threshold: 0.1}); // 10% of the section must be visible to trigger
+
+        /* hint: tell sectionObserver to watch section */
+sectionObserver.observe(section);
+
+
+//thepart that watches the .timeline-items and adds .animate when they scroll into view
+const itemsObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+
+        if(entry.isIntersecting){
+            //add .animate to the timeline-item when it scrolls into view
+            entry.target.classList.add('animate');
+            itemsObserver.unobserve(entry.target); // stop watching after animating
+
+        }
+
+    })
+}, {threshold: 0.2}); // 20% of the item must be visible to trigger
+items.forEach(function(item){
+    itemsObserver.observe(item); // tell itemsObserver to watch each timeline-item
+});
+
+
+
+
+
+// The JavaScript counting animation
+
+// Get all the stat numbers
+const statNumbers = document.querySelectorAll('.stat-number');
+
+// Function to count up to the target number
+function countUp(element) {
+    const target = parseInt(element.getAttribute('data-target')); // get the target number
+    const duration = 2000; // total duration of the count (2 seconds)
+    const step = Math.ceil(target / (duration / 16)); // how much to increment each step (every 16ms)
+
+    let current = 0; // start counting from 0
+
+    const timer = setInterval(function() {
+        current += step; // increment the current count
+        if (current >= target) { // if we've reached or exceeded the target
+            current = target; // set to exact target
+            clearInterval(timer); // stop the timer
+        }
+        element.textContent = current; // update the displayed number
+    }, 16); // run every 16ms (~60fps)
+}
+
+// Watch the stats section and trigger countUp when it scrolls into view
+
+const statsObserver = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            statNumbers.forEach(function(num) {
+                countUp(num); // start counting for each number
+            });
+            observer.unobserve(entry.target); // stop watching after it triggers once
+        }
+    });
+}, { threshold: 0.3 }); // trigger when 30% of the section is visible
+
+statsObserver.observe(document.getElementById('statsSection'));
+
+
+    </script>
+</body>
+</html>
